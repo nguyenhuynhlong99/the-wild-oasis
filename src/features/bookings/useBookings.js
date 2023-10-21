@@ -12,7 +12,7 @@ export function useBookings() {
   const filter =
     !filterValue || filterValue === 'all'
       ? null
-      : { field: 'status', value: filterValue, method: 'gte' };
+      : { field: 'status', value: filterValue };
   // { field: 'totalPrice', value: 5000, method: 'gte' }
 
   // SORT
@@ -42,12 +42,12 @@ export function useBookings() {
     });
   }
 
-  // if (page > 1) {
-  //   queryClient.prefetchQuery({
-  //     queryKey: ['bookings', filter, sortBy, page - 1],
-  //     queryFn: () => getBookings({ filter, sortBy, page: page - 1 }),
-  //   });
-  // }
+  if (page > 1) {
+    queryClient.prefetchQuery({
+      queryKey: ['bookings', filter, sortBy, page - 1],
+      queryFn: () => getBookings({ filter, sortBy, page: page - 1 }),
+    });
+  }
 
   return { isLoading, error, bookings, count };
 }
